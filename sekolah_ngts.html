@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMK Diponegoro Tumpang - NGTS</title>
+    <style>
+        /* === 1. CSS VARIABLES (Tema Warna & Font Branding RECFON NGTS) === */
+        :root {
+            --primary: #FBBF24; /* Kuning Branding RECFON NGTS (Sesuai Logo) */
+            --primary-dark: #D97706; /* Kuning Gelap/Oranye */
+            --primary-light: #FEF3C7; /* Kuning sangat terang untuk hover */
+            --secondary: #DC2626; /* Merah Branding RECFON NGTS */
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        /* === 2. RESET & BASE === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* === 3. HEADER & NAVIGASI === */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .top-bar {
+            background: var(--primary);
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.875rem;
+            padding: 0.5rem 0;
+            text-align: left;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+        /* Penyesuaian Logo NGTS pada Header */
+        .logo-header { 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-header img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-main);
+            transition: all 0.2s;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-links a:hover { 
+            color: var(--primary-dark); 
+            border-bottom-color: var(--primary-dark);
+        }
+
+        /* === 4. HERO SECTION (Tampilan Nama & Logo Sekolah) === */
+        .hero {
+            padding: 4rem 0;
+            background: linear-gradient(to bottom, #ffffff, #f8fafc);
+            border-bottom: 1px solid var(--border);
+        }
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            text-align: left;
+        }
+        .hero-logo img {
+            max-width: 120px;
+            height: auto;
+        }
+        .hero-text h1 { font-size: 2.5rem; color: var(--text-main); margin-bottom: 0.25rem; }
+        .hero-text .motto { font-size: 1.25rem; font-style: italic; color: var(--primary-dark); margin-bottom: 1rem; font-weight: 600; }
+        .hero-text .meta-info { display: flex; gap: 1rem; color: var(--text-muted); font-size: 0.95rem; }
+        
+        .social-bar {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            align-items: center;
+        }
+        .social-bar span { font-weight: 600; margin-right: 10px; }
+        .social-icons a { 
+            display: inline-block; padding: 0.5rem 1rem; background: var(--text-main); color: white;
+            border-radius: 50px; font-size: 0.875rem; font-weight: 500; transition: background 0.2s;
+        }
+        .social-icons a:hover { background: var(--primary); color: var(--text-main); }
+
+        /* === 5. LAYOUT GRID UTAMA === */
+        .section-padding { padding: 4rem 0; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; } 
+        
+        .section-title { font-size: 1.75rem; margin-bottom: 1.5rem; font-weight: 700; }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        /* === 6. STATISTIK / PROFIL SEKOLAH === */
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary);
+            transition: transform 0.2s ease;
+        }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-card h3 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-card p { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-top: 0.5rem; }
+
+        /* === 7. MODERN TABS UI === */
+        .tabs-nav {
+            display: flex; flex-wrap: wrap; gap: 1rem;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1.5rem;
+        }
+        .tab-btn {
+            background: none; border: none; padding: 0.75rem 1rem;
+            font-size: 1rem; font-weight: 600; color: var(--text-muted);
+            cursor: pointer; border-bottom: 3px solid transparent;
+            margin-bottom: -2px; transition: all 0.2s ease;
+        }
+        .tab-btn:hover { color: var(--text-main); background-color: var(--primary-light); border-radius: 6px 6px 0 0; }
+        .tab-btn.active { color: var(--primary-dark); border-bottom-color: var(--primary-dark); }
+        
+        .tab-panel { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .tab-panel.active { display: block; }
+        .tab-panel ol, .tab-panel ul { padding-left: 1.25rem; margin-top: 0.5rem; }
+        .tab-panel li { margin-bottom: 0.5rem; color: var(--text-muted); }
+        .tab-panel h4 { margin-bottom: 0.5rem; color: var(--text-main); }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* === 8. VIDEO EMBED RESPONSIVE === */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Aspect ratio 16:9 */
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .video-caption {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* === 9. TESTIMONIAL & TEAM === */
+        .testimonial-card {
+            background: var(--bg-card);
+            border-left: 4px solid var(--primary);
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
+            padding: 2rem;
+            position: relative;
+        }
+        .testimonial-card p { font-style: italic; font-size: 1.05rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-main); }
+        .testimonial-author { font-weight: 700; color: var(--text-main); }
+        .testimonial-role { font-size: 0.875rem; color: var(--text-muted); }
+
+        .team-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+        }
+        .team-list li:last-child { border-bottom: none; }
+        .team-list strong { display: block; color: var(--text-main); }
+        .team-list span { font-size: 0.875rem; color: var(--text-muted); }
+
+        /* === 10. FOOTER === */
+        footer { background: var(--primary); color: var(--text-main); padding: 4rem 0 2rem; margin-top: 4rem; border-top: 4px solid var(--secondary); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--text-main); font-weight: 700; }
+        .footer-col p, .footer-col a { color: var(--text-main); font-size: 0.95rem; font-weight: 500; }
+        .footer-col a:hover { color: var(--secondary); text-decoration: underline; }
+        .footer-col ul li { margin-bottom: 0.5rem; }
+        .copyright { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.875rem; font-weight: 500; }
+
+        /* === 11. RESPONSIVE DESIGN === */
+        @media (max-width: 1100px) {
+            .grid-5 { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 992px) {
+            .grid-5 { grid-template-columns: 1fr 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .hero-content { flex-direction: column; text-align: center; }
+            .hero-text .meta-info { justify-content: center; flex-direction: column; gap: 0.25rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .hero-text h1 { font-size: 2rem; }
+            .social-bar { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigasi -->
+    <header>
+        <div class="top-bar">
+            <div class="container">✉️ seameo.recfon@gmail.com</div>
+        </div>
+        <div class="container nav-container">
+            <!-- Tempat Logo SEAMEO RECFON NGTS -->
+            <a href="#" class="logo-header">
+                <img src="https://ngts.seameo-recfon.org/wp-content/uploads/2018/08/Logo-Website.png" alt="Logo NGTS">
+            </a>
+            
+            <nav class="nav-links">
+                <a href="#">Beranda</a>
+                <a href="#">Tentang</a>
+                <a href="#">Berita</a>
+                <a href="#">Kegiatan Utama</a>
+                <a href="#">Etalase Sekolah</a>
+                <a href="#">E-Katalog</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Tempat Logo SMK Diponegoro Tumpang -->
+                <div class="hero-logo">
+                    <img src="https://ngts.seameo-recfon.org/wp-content/uploads/2019/09/logo-smk-diponegoro-tumpang.png" alt="Logo SMK Diponegoro">
+                </div>
+                <div class="hero-text">
+                    <h1>SMK Diponegoro Tumpang</h1>
+                    <p class="motto">"Sekolah Sak Ngajine"</p>
+                    <div class="meta-info">
+                        <span>📍 JL. Tunggul Ametung No. 22 Tumpang Kab. Malang</span>
+                        <span>📋 NPSN: 20568697</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="social-bar">
+                <span>Ikuti Kami :</span>
+                <div class="social-icons">
+                    <a href="#">Facebook</a>
+                    <a href="#">TikTok</a>
+                    <a href="#">X-Twitter</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- Statistik dengan 5 Kolom -->
+        <section class="section-padding">
+            <div class="grid-5">
+                <div class="stat-card"><h3>Akreditasi</h3><p>A</p></div>
+                <div class="stat-card"><h3>Kurikulum</h3><p>Merdeka Belajar</p></div>
+                <div class="stat-card"><h3>Jumlah Guru</h3><p>65</p></div>
+                <div class="stat-card"><h3>Jumlah Siswa</h3><p>634</p></div>
+                <div class="stat-card"><h3>Index NGTS (Gizi)</h3><p>MAHIR</p></div>
+            </div>
+        </section>
+
+        <!-- Deskripsi -->
+        <section class="card" style="margin-bottom: 4rem;">
+            <h2 class="section-title">Deskripsi Sekolah</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1rem;">SMK Diponegoro Tumpang merupakan sebuah sekolah menengah kejuruan yang beralamatkan di Jalan Tunggul Ametung No. 22 Tumpang Kabupaten Malang. Memiliki 4 Kompetensi keahlian, yaitu Teknik Komputer dan Jaringan, Multimedia, Teknik dan Bisnis Sepeda Motor, Asisten Keperawatan. Merupakan salah satu sekolah menengah yang berada di Malang, provinsi Jawa Timur. Adapun Nomor pokok sekolah nasional (NPSN) untuk SMK DIPONEGORO TUMPANG ini adalah 20568697.</p>
+            <p style="color: var(--text-muted);">Sekolah ini menyediakan berbagai fasilitas penunjang pendidikan bagi anak didiknya. Terdapat guru-guru dengan kualitas terbaik yang kompeten dibidangnya, kegiatan penunjang pembelajaran seperti ekstrakurikuler (ekskul), organisasi siswa, komunitas belajar, tim olahraga, dan perpustakaan sehingga siswa dapat belajar secara maksimal. Proses belajar dibuat senyaman mungkin bagi murid dan siswa.</p>
+        </section>
+
+        <!-- Tabs 1: Prestasi -->
+        <section class="card" style="margin-bottom: 4rem;">
+            <h2 class="section-title">Prestasi Sekolah</h2>
+            <div class="tabs-nav" id="prestasi-tabs">
+                <button class="tab-btn active" data-target="p-juara1">Juara 1</button>
+                <button class="tab-btn" data-target="p-juara2">Juara 2</button>
+                <button class="tab-btn" data-target="p-juara3">Juara 3</button>
+                <button class="tab-btn" data-target="p-harapan">Harapan II</button>
+                <button class="tab-btn" data-target="p-penghargaan">Penghargaan</button>
+                <button class="tab-btn" data-target="p-partisipasi">Partisipasi</button>
+            </div>
+            <div class="tab-content">
+                <div id="p-juara1" class="tab-panel active">
+                    <ol>
+                        <li>Gerak Jalan Tradisional Putri Se Kec. Tumpang Tahun 2015</li>
+                        <li>Pawai Ta’aruf Yayasan Diponegoro Tumpang 2016</li>
+                        <li>DORAR Tingkat Wira Tahun 2019</li>
+                    </ol>
+                </div>
+                <div id="p-juara2" class="tab-panel">
+                    <ol>
+                        <li>Perawatan Keluarga Tingkat Wira Tahun 2013</li>
+                        <li>Tanding Putra Perisai Diri</li>
+                        <li>Kelas A Dewasa Putra (26–28 Desember 2014)</li>
+                        <li>Tunggal Putri Remaja Kejuruan Kabupaten II Silat Perisai Diri Se-Malang Raya, Malang 21-24 Desember 2017</li>
+                        <li>Teknik Asli Minang Kabau Remaja Putri Invitasi Kelatnas Indonesia Perisai Diri Pertama Se-Malang Raya 2014</li>
+                    </ol>
+                </div>
+                <div id="p-juara3" class="tab-panel">
+                    <ol>
+                        <li>IPSI Kab. Malang Kelas 1 Putra Remaja (2015)</li>
+                        <li>Tanding Beregu Remaja Putra (26-28 Desember 2014)</li>
+                        <li>Kelas B Remaja Putri (26-28 Desember 2014)</li>
+                        <li>Tanding Putri Tingkat SMA / SMK Sederajat 22-23 Juni 2019</li>
+                        <li>Kelas F Remaja Putri</li>
+                        <li>Tanding Putra Perisai Diri</li>
+                        <li>Kelas B Dewasa Putra (Lawang 26-29 Desember 2014)</li>
+                        <li>Kelas F Putri Remaja (6-9 Maret 2017)</li>
+                        <li>Tanding Beregu Putri Invitasi Kelantasan Indonesia Perisai Diri Se-Malang Raya 26-28 Desember 2014</li>
+                        <li>Kelas D Remaja Putri (IPSI 2015)</li>
+                        <li>Kelas C Dewasa Putra Invitasi Kelatnas Indonesia Perisai Diri Pertama Se-Malang Raya 2014</li>
+                        <li>Serang Hindar Remaja Putri Se-Malang Raya 2014</li>
+                        <li>Tanding Kelas D Putra Remaja Kejuaraan Kabupaten 2 Silat Perisai Diri Se-Malang Raya</li>
+                        <li>Tanding Kelas A Putri Remaja</li>
+                        <li>Pertolongan Pertama Tingkat Wira (2013)</li>
+                        <li>Bantuan Hidup Dasar Tingkat SMK Diesnatalis ke-13 Poltekkes RS dr. Soepraoen</li>
+                        <li>Pertolongan Pertama Tingkat Wira Ajang Latihan Ketrampilan PMR Se-Jawa Timur</li>
+                        <li>Ma Chung Futsal (2013)</li>
+                        <li>Fun Futsal Competition (2013)</li>
+                        <li>Bola Voli Putra Tingkat SMA/SMK/MA Kab. Malang (2017)</li>
+                        <li>Memperingati Lomba Pawai (19 Oktober 2019)</li>
+                        <li>Gerak Jalan TK SLTA PI HUT Ke 68 RI Tingkat Kecamatan Tumpang (2013)</li>
+                        <li>Sholawat Al-Banjari Tingkat SMA Se-Malang Raya PM. Babussalam Al-Firdaus (2015)</li>
+                    </ol>
+                </div>
+                <div id="p-harapan" class="tab-panel">
+                    <ol>
+                        <li>Gerak Jalan SMA/SMK/MA Putri Tingkat Kecamatan Tumpang 2017</li>
+                    </ol>
+                </div>
+                <div id="p-penghargaan" class="tab-panel">
+                    <ol>
+                        <li>Dancing Competition SMK Diponegoro UIN Maliki (2012)</li>
+                        <li>Penghargaan Prestasi Futsal SMK Diponegoro (2014) (2x)</li>
+                        <li>Best Team Fair Play ITN Malang (2016)</li>
+                        <li>Piala Bergilir Lomba Pawai Kreatif Antar Lembaga ”Memperingati Hari Besar Islami”</li>
+                        <li>Peleton Terbaik Upacara HARDIKNAS Tingkat SMA/SMK/MA Se Kec. Tumpang (2018)</li>
+                    </ol>
+                </div>
+                <div id="p-partisipasi" class="tab-panel">
+                    <ol>
+                        <li>Temu Bakti Wira dan Madya Ikatan Pelatih KSR – PMI unit UIN Maliki Malang (3 Maret 2013)</li>
+                        <li>Kesukarelaan Altara (2014)</li>
+                        <li>Tegak PMR VI UMM (2017)</li>
+                        <li>Latihan Gabungan PMR Wira dan Madya (23 Maret 2014)</li>
+                        <li>Raimuna Daerah Jatim Lebak Harjo (2013)</li>
+                        <li>Praktek Kerja Industri Sistem Ganda (2010/2011)</li>
+                        <li>Flexi M-Teens School Competition (2010)</li>
+                        <li>Praktek Pengalaman Lapangan Pendidikan B. Jepang Fakultas Ilmu Budaya UB (2016)</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tabs 2: NGTS -->
+        <section class="card" style="margin-bottom: 4rem;">
+            <h2 class="section-title">Kegiatan Program Gizi untuk Prestasi</h2>
+            <div class="tabs-nav" id="gizi-tabs">
+                <button class="tab-btn active" data-target="g-kantin">Kantin</button>
+                <button class="tab-btn" data-target="g-kebun">Kebun</button>
+                <button class="tab-btn" data-target="g-edukasi">Edukasi Gizi</button>
+                <button class="tab-btn" data-target="g-phbs">PHBS</button>
+                <button class="tab-btn" data-target="g-fisik">Aktivitas Fisik</button>
+                <button class="tab-btn" data-target="g-wirausaha">Kewirausahaan</button>
+            </div>
+            <div class="tab-content">
+                <div id="g-kantin" class="tab-panel active">
+                    <p style="color: var(--text-muted);">Tim berkolaborasi dengan guru Mata Pelajaran Produk Kreatif (PK) dalam pelaksanaan Kantin Sehat di sekolah. Diawali dengan pemberian tugas oleh guru kepada siswa secara berkelompok untuk menciptakan makanan sehat, aman dan bergizi. Siswa menciptakan makanan dari bahan pangan lokal yang tersedia disekitar sekolah berupa: sayur-sayuran, buah-buahan, ikan dan lain sebagainya. Para siswa bekerjasama mengolah bahan-bahan tersebut dan menghidangkannya semenarik mungkin, agar makanan tersebut terlihat menarik dan layak diterima dan dikonsumsi oleh warga sekolah. Setelah itu siswa menjual makanannya pada saat jam istirahat berlangsung dengan memanfaatkan lahan seadanya (ruang kelas yang tidak terpakai), mereka berjualan secara bergantian setiap harinya.</p>
+                </div>
+                <div id="g-kebun" class="tab-panel">
+                    <p style="color: var(--text-muted);">Belum ada kegiatan.</p>
+                </div>
+                <div id="g-edukasi" class="tab-panel">
+                    <h4>Magenta (Majalah Generasi Tangguh)</h4>
+                    <p style="color: var(--text-muted);">Kegiatan Edukasi Gizi salah satunya dilaksanakan dengan memanfaatkan media majalah sekolah (MAGENTA) yang diterbitkan setiap 6 bulan sekali. Melalui media ini Tim NGTS memberikan informasi Gizi dan Kesehatan kepada seluruh warga sekolah atau bahkan seluruh pembaca majalah tersebut. Selain itu kami juga membuka peluang bagi seluruh warga sekolah sebagai kontributor untuk menuliskan karyanya di majalah.</p>
+                </div>
+                <div id="g-phbs" class="tab-panel">
+                    <p style="color: var(--text-muted);">Jumat Sehat Bersih Bergizi.</p>
+                </div>
+                <div id="g-fisik" class="tab-panel">
+                    <h4>Senam Sabtu Ceria</h4>
+                    <p style="color: var(--text-muted);">Dilaksanakan setiap hari sabtu dengan melibatkan guru serta siswa.</p>
+                </div>
+                <div id="g-wirausaha" class="tab-panel">
+                    <h4 style="margin-bottom: 0.5rem; color: var(--text-main);">Gizi Kewirausahaan: Inovasi Pangan Lokal Siswa SMK</h4>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">Program kewirausahaan berbasis gizi (Nutrition Entrepreneurship) di SMK tidak hanya menanamkan jiwa mandiri, tetapi juga mendorong lahirnya inovasi produk pangan bergizi berbasis potensi lokal. Berikut adalah contoh-contoh praktik terbaik yang inspiratif:</p>
+                    
+                    <ul style="color: var(--text-muted); list-style-type: disc; padding-left: 1.25rem;">
+                        <li style="margin-bottom: 0.75rem;">
+                            <strong style="color: var(--text-main);">Pie Tempe Beras Kencur (SMK Sahid Surakarta):</strong> Siswa berhasil menciptakan inovasi kue pie dengan bahan dasar tepung tempe yang kaya protein. Produk ini memadukan cita rasa tradisional seperti jamu beras kencur dan semar mendem, serta berhasil meraup omzet hingga Rp3,5 juta dalam empat hari peluncuran.
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <strong style="color: var(--text-main);">Serbuk Rempah "Moegi" (SMK Muhammadiyah Minggir, Sleman):</strong> Mengangkat kearifan lokal, siswa mengembangkan minuman serbuk rempah dengan varian jahe original, jahe lemon, dan kunyit lemon. Produk ini sukses menjadi ikon wirausaha muda sekolah dan diapresiasi hingga tingkat nasional.
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <strong style="color: var(--text-main);">Dessert Ubi Ungu (SMKN 1 Kadipaten, Majalengka):</strong> Seorang siswi mengembangkan usaha dessert berbahan dasar ubi ungu yang dipasarkan di koperasi sekolah. Usahanya mampu menjual 50–60 produk setiap hari, membuktikan bahwa olahan pangan lokal memiliki potensi pasar yang besar.
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <strong style="color: var(--text-main);">Produk "GRUWUL" (SMK Muhammadiyah Ponjong):</strong> Inovasi olahan pangan kreatif yang memadukan cita rasa tradisional dengan memanfaatkan bahan dasar singkong (grubi thiwul), membawa siswa berkompetisi hingga ke panggung nasional.
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <strong style="color: var(--text-main);">Olahan Daun Kelor (SMK Ibu Kartini Semarang):</strong> Siswa dilatih mengolah daun kelor yang kaya gizi menjadi produk bernilai ekonomi seperti puding dan es krim, sekaligus menumbuhkan jiwa wirausaha berbasis pangan fungsional.
+                        </li>
+                    </ul>
+                    <p style="color: var(--text-muted); margin-top: 1rem; font-style: italic;">Melalui program ini, siswa belajar siklus bisnis nyata mulai dari produksi, branding, hingga pemasaran produk bergizi yang berdaya saing.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIDEO JINGLE NGTS (Dipindahkan ke sini agar selaras dengan konteks SBCC NGTS) -->
+        <section class="card" style="margin-bottom: 4rem;">
+            <h2 class="section-title">Video Jingle NGTS: Penggerak Perilaku</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-style: italic;">"Media kampanye satu arah diubah menjadi instrumen pembiasaan gizi nyata di sekolah. Saksikan bagaimana keceriaan siswa dalam mengadopsi pola hidup sehat."</p>
+            <div class="grid-2">
+                <!-- Video 1 -->
+                <div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube-nocookie.com/embed/6h_JWIU137E?rel=0" title="Jingle NGTS 1" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                    <p class="video-caption"><a href="https://youtu.be/6h_JWIU137E" target="_blank" style="color: var(--primary-dark); text-decoration: underline; font-weight: 500;">Tonton di YouTube</a></p>
+                </div>
+                
+                <!-- Video 2 -->
+                <div>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube-nocookie.com/embed/oLq-8_TJlTQ?rel=0" title="Jingle NGTS 2" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                    <p class="video-caption"><a href="https://youtu.be/oLq-8_TJlTQ" target="_blank" style="color: var(--primary-dark); text-decoration: underline; font-weight: 500;">Tonton di YouTube</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tantangan & Sukses (2 Columns) -->
+        <section class="grid-2" style="margin-bottom: 4rem;">
+            <div class="card">
+                <h2 class="section-title">Tantangan</h2>
+                <p style="color: var(--text-muted);">Dalam pelaksanaan kegiatan banyak kendala, dari terbatasnya ruang/lahan untuk melakukan kantin sehat sehingga anak-anak berjualan di ruang kelas yang tidak terpakai, terbatasnya ruang/lahan untuk melakukan senam sabtu ceria mengingat perlunya lahan yang luas, penyusunan majalah yang cukup lama karena keterbatasan SDM.</p>
+            </div>
+            <div class="card">
+                <h2 class="section-title">Cerita Sukses NGTS</h2>
+                <ul style="color: var(--text-muted); list-style-type: disc; padding-left: 1.25rem;">
+                    <li style="margin-bottom: 0.5rem;">Dari yang awalnya sekolah tidak bisa membuka kantin sehat/membiarkan warga sekolah untuk berwirausaha dengan adanya pelaksanaan kegiatan NGTS ini seluruh warga sekolah bisa berwirausaha dan menikmati makanan bergizi dan sehat.</li>
+                    <li>Seluruh warga sekolah akhirnya bisa melakukan senam rutin setiap sabtu.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Team & Testimonial (2 Columns) -->
+        <section class="grid-2" style="margin-bottom: 4rem;">
+            <div class="card">
+                <h2 class="section-title">Tim NGTS</h2>
+                <ul class="team-list">
+                    <li>
+                        <div>
+                            <strong>Ihya Ulumuddin, S.Kom, MM</strong>
+                            <span>Kepala Sekolah</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Reni Rohmawati, S.Pd</strong>
+                            <span>Waka Kesiswaan</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Marisa Amalia N, Amd. Kep.</strong>
+                            <span>Guprod AK</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="testimonial-card">
+                <p>“Kegiatan kantin sehat, senam sabtu ceria, dan Majalah Generasi Tangguh di SMK Diponegoro Tumpang sangat bermanfaat bagi saya terutama di masa Pandemi Covid 19, karena dengan adanya kantin sehat saya bisa membeli jajanan yang sehat tanpa khawatir harus keluar area sekolah dan sesekali bisa menitipkan hasil makanan olahan saya di kantin sehat sebagai income tambahan selain sebagai karyawan di SMK , dengan senam sabtu ceria saya yang sedianya bermalas-malasan untuk melakukan aktivitas senam mandiri sekarang bisa dengan rutin mengikuti senam setiap hari sabtu dengan berbagai macam gerakan sehingga tidak membuat saya bosan, serta dengan adanya Majalah Generasi Tangguh saya bisa memperluas wawasan saya tentang dunia kesehatan (makanan yang bergizi)”</p>
+                <div class="testimonial-author">Khabibah</div>
+                <div class="testimonial-role">Guru, SMK Diponegoro Tumpang</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Tentang Kami</h4>
+                    <p>Gizi Untuk Prestasi adalah salah satu program utama SEAMEO RECFON yang bertujuan untuk mendukung siswa dalam mencapai siswa yang Aktif, Sehat, Bergizi Baik dan Cerdas.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Tautan Penting</h4>
+                    <ul>
+                        <li><a href="http://www.seameo-recfon.org/">Website SEAMEO RECFON</a></li>
+                        <li><a href="https://sipp-ngts.seameo-recfon.org/">SIPP NGTS</a></li>
+                        <li><a href="https://sbnp.seameo-recfon.org/">SBNP Platform</a></li>
+                        <li><a href="https://eccne.seameo-recfon.org/">Website ECCNE</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Hubungi Kami</h4>
+                    <p>Gedung SEAMEO RECFON<br>Jl. Utan Kayu Raya No.1A, Utan Kayu Utara, Kec. Matraman, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta, Jakarta 13120 | Indonesia</p>
+                    <p style="margin-top: 1rem;">Telp: +62-21 22116225<br>E-mail: Information@seameo-recfon.org</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Media Sosial</h4>
+                    <ul>
+                        <li><a href="https://web.facebook.com/seameorecfon?_rdc=1&_rdr" target="_blank">Facebook</a></li>
+                        <li><a href="https://twitter.com/seameorecfon" target="_blank">X-Twitter</a></li>
+                        <li><a href="https://www.youtube.com/channel/UCycXKeiIgEG-_ikdyern_MQ" target="_blank">YouTube</a></li>
+                        <li><a href="https://www.instagram.com/seameorecfon/" target="_blank">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2026 SEAMEO RECFON | All Rights Reserved | Hosted and Managed by SEAMEO RECFON
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript untuk Tabs -->
+    <script>
+        function initTabs(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const buttons = container.querySelectorAll('.tab-btn');
+            
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Reset aktif state
+                    buttons.forEach(b => b.classList.remove('active'));
+                    const tabContent = container.nextElementSibling;
+                    const panels = tabContent.querySelectorAll('.tab-panel');
+                    panels.forEach(p => p.classList.remove('active'));
+                    
+                    // Set tab yang diklik menjadi aktif
+                    btn.classList.add('active');
+                    const targetId = btn.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        }
+        
+        initTabs('prestasi-tabs');
+        initTabs('gizi-tabs');
+    </script>
+</body>
+</html>
